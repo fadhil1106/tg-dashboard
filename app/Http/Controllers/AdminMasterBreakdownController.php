@@ -8,7 +8,7 @@ use Request;
 // use DB;
 use CRUDBooster;
 
-class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controllers\CBController
+class AdminMasterBreakdownController extends \crocodicstudio\crudbooster\controllers\CBController
 {
 
     public function cbInit()
@@ -17,7 +17,7 @@ class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controller
         # START CONFIGURATION DO NOT REMOVE THIS LINE
         $this->title_field = "id";
         $this->limit = "31";
-        $this->orderby = "salary_date,desc";
+        $this->orderby = "breakdown_date,desc";
         $this->global_privilege = false;
         $this->button_table_action = true;
         $this->button_bulk_action = true;
@@ -30,40 +30,38 @@ class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controller
         $this->button_filter = true;
         $this->button_import = false;
         $this->button_export = false;
-        $this->table = "master_salary";
+        $this->table = "master_breakdown";
         # END CONFIGURATION DO NOT REMOVE THIS LINE
 
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
-        $this->col[] = ["label" => "Bulan", "name" => "salary_date", "callback" => function ($row) {
-            return date('F', $row->salary_date);
+        $this->col[] = ["label" => "Date", "name" => "breakdown_date"];
+        $this->col[] = ["label" => "Breakdown TI (Unit)", "name" => "breakdown_ti", "callback" => function ($row) {
+            return number_format($row->breakdown_ti);
         }];
-        $this->col[] = ["label" => "Salary TI (IDR)", "name" => "salary_ti", "callback" => function ($row) {
-            return number_format($row->salary_ti);
-        }];
-        $this->col[] = ["label" => "Salary TM (IDR)", "name" => "salary_tm", "callback" => function ($row) {
-            return number_format($row->salary_tm);
+        $this->col[] = ["label" => "Breakdown TM (Unit)", "name" => "breakdown_tm", "callback" => function ($row) {
+            return number_format($row->breakdown_tm);
         }];
         $this->col[] = ["label" => "Total (IDR)", "callback" => function ($row) {
             return number_format($row->total);
         }];
-        $this->col[] = ["label" => "Comment", "name" => "salary_comment"];
+        $this->col[] = ["label" => "Comment", "name" => "breakdown_comment"];
         # END COLUMNS DO NOT REMOVE THIS LINE
 
         # START FORM DO NOT REMOVE THIS LINE
         $this->form = [];
-        $this->form[] = ['label' => 'Salary Date', 'name' => 'salary_date', 'type' => 'date', 'validation' => 'required|date', 'width' => 'col-sm-10'];
-        $this->form[] = ['label' => 'Salary Tiran Indonesia (IDR)', 'name' => 'salary_ti', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
-        $this->form[] = ['label' => 'Salary Tiran Mineral (IDR)', 'name' => 'salary_tm', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
-        $this->form[] = ['label' => 'Comment', 'name' => 'salary_comment', 'type' => 'textarea', 'validation' => 'min:0', 'width' => 'col-sm-10'];
+        $this->form[] = ['label' => 'Date', 'name' => 'breakdown_date', 'type' => 'date', 'validation' => 'required|date', 'width' => 'col-sm-10'];
+        $this->form[] = ['label' => 'Breakdown TI (Unit)', 'name' => 'breakdown_ti', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-17'];
+        $this->form[] = ['label' => 'Breakdown TM (Unit)', 'name' => 'breakdown_tm', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
+        $this->form[] = ['label' => 'Comment', 'name' => 'breakdown_comment', 'type' => 'textarea', 'validation' => 'min:0|max:255', 'width' => 'col-sm-10'];
         # END FORM DO NOT REMOVE THIS LINE
 
         # OLD START FORM
         //$this->form = [];
-        //$this->form[] = ["label"=>"Salary Date","name"=>"salary_date","type"=>"date","required"=>TRUE,"validation"=>"required|date"];
-        //$this->form[] = ["label"=>"Salary Ti","name"=>"salary_ti","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-        //$this->form[] = ["label"=>"Salary Tm","name"=>"salary_tm","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-        //$this->form[] = ["label"=>"Salary Comment","name"=>"salary_comment","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+        //$this->form[] = ["label"=>"Breakdown Date","name"=>"breakdown_date","type"=>"date","required"=>TRUE,"validation"=>"required|date"];
+        //$this->form[] = ["label"=>"Breakdown Ti","name"=>"breakdown_ti","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+        //$this->form[] = ["label"=>"Breakdown Tm","name"=>"breakdown_tm","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+        //$this->form[] = ["label"=>"Breakdown Comment","name"=>"breakdown_comment","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
         # OLD END FORM
 
         /*
@@ -251,7 +249,7 @@ class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controller
     public function hook_query_index(&$query)
     {
         //Your code here
-        $query = DB::table('master_salary')->selectRaw('*, salary_ti + salary_tm AS total');
+        $query = DB::table('master_breakdown')->selectRaw('*, breakdown_ti + breakdown_tm AS total');
     }
 
     /*
