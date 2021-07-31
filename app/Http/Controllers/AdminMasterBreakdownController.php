@@ -36,10 +36,10 @@ class AdminMasterBreakdownController extends \crocodicstudio\crudbooster\control
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
         $this->col[] = ["label" => "Date", "name" => "breakdown_date"];
-        $this->col[] = ["label" => "Breakdown TI (Unit)", "name" => "breakdown_ti", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Indonesia (Unit)", "name" => "breakdown_ti", "callback" => function ($row) {
             return number_format($row->breakdown_ti);
         }];
-        $this->col[] = ["label" => "Breakdown TM (Unit)", "name" => "breakdown_tm", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Mineral (Unit)", "name" => "breakdown_tm", "callback" => function ($row) {
             return number_format($row->breakdown_tm);
         }];
         $this->col[] = ["label" => "Total (IDR)", "callback" => function ($row) {

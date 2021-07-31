@@ -8,7 +8,7 @@ use Request;
 // use DB;
 use CRUDBooster;
 
-class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controllers\CBController
+class AdminMasterProductionCostController extends \crocodicstudio\crudbooster\controllers\CBController
 {
 
     public function cbInit()
@@ -17,7 +17,7 @@ class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controller
         # START CONFIGURATION DO NOT REMOVE THIS LINE
         $this->title_field = "id";
         $this->limit = "31";
-        $this->orderby = "salary_date,desc";
+        $this->orderby = "production_cost_date,desc";
         $this->global_privilege = false;
         $this->button_table_action = true;
         $this->button_bulk_action = true;
@@ -30,40 +30,40 @@ class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controller
         $this->button_filter = true;
         $this->button_import = false;
         $this->button_export = false;
-        $this->table = "master_salary";
+        $this->table = "master_production_cost";
         # END CONFIGURATION DO NOT REMOVE THIS LINE
 
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
-        $this->col[] = ["label" => "Bulan", "name" => "salary_date", "callback" => function ($row) {
-            return date('F', $row->salary_date);
+        $this->col[] = ["label" => "Bulan", "name" => "production_cost_date", "callback" => function ($row) {
+            return date('F', $row->production_cost_date);
         }];
-        $this->col[] = ["label" => "Tiran Indonesia (IDR)", "name" => "salary_ti", "callback" => function ($row) {
-            return number_format($row->salary_ti);
+        $this->col[] = ["label" => "Tiran Indonesia (IDR)", "name" => "production_cost_ti", "callback" => function ($row) {
+            return number_format($row->production_cost_ti);
         }];
-        $this->col[] = ["label" => "Tiran Mineral (IDR)", "name" => "salary_tm", "callback" => function ($row) {
-            return number_format($row->salary_tm);
+        $this->col[] = ["label" => "Tiran Mineral (IDR)", "name" => "production_cost_tm", "callback" => function ($row) {
+            return number_format($row->production_cost_tm);
         }];
         $this->col[] = ["label" => "Total (IDR)", "callback" => function ($row) {
             return number_format($row->total);
         }];
-        $this->col[] = ["label" => "Comment", "name" => "salary_comment"];
+        $this->col[] = ["label" => "Cost Comment", "name" => "production_cost_comment"];
         # END COLUMNS DO NOT REMOVE THIS LINE
 
         # START FORM DO NOT REMOVE THIS LINE
         $this->form = [];
-        $this->form[] = ['label' => 'Salary Date', 'name' => 'salary_date', 'type' => 'date', 'validation' => 'required|date', 'width' => 'col-sm-10'];
-        $this->form[] = ['label' => 'Salary Tiran Indonesia (IDR)', 'name' => 'salary_ti', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
-        $this->form[] = ['label' => 'Salary Tiran Mineral (IDR)', 'name' => 'salary_tm', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
-        $this->form[] = ['label' => 'Comment', 'name' => 'salary_comment', 'type' => 'textarea', 'validation' => 'min:0', 'width' => 'col-sm-10'];
+        $this->form[] = ['label' => 'Date', 'name' => 'production_cost_date', 'type' => 'date', 'validation' => 'required|date', 'width' => 'col-sm-10'];
+        $this->form[] = ['label' => 'Production Cost Tiran Indonesia (IDR)', 'name' => 'production_cost_ti', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
+        $this->form[] = ['label' => 'Production Cost Tiran Mineral (IDR)', 'name' => 'production_cost_tm', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
+        $this->form[] = ['label' => 'Comment', 'name' => 'production_cost_comment', 'type' => 'textarea', 'validation' => 'min:0|max:255', 'width' => 'col-sm-10'];
         # END FORM DO NOT REMOVE THIS LINE
 
         # OLD START FORM
         //$this->form = [];
-        //$this->form[] = ["label"=>"Salary Date","name"=>"salary_date","type"=>"date","required"=>TRUE,"validation"=>"required|date"];
-        //$this->form[] = ["label"=>"Salary Ti","name"=>"salary_ti","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-        //$this->form[] = ["label"=>"Salary Tm","name"=>"salary_tm","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-        //$this->form[] = ["label"=>"Salary Comment","name"=>"salary_comment","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+        //$this->form[] = ["label"=>"Production Cost Date","name"=>"production_cost_date","type"=>"date","required"=>TRUE,"validation"=>"required|date"];
+        //$this->form[] = ["label"=>"Production Cost Ti","name"=>"production_cost_ti","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+        //$this->form[] = ["label"=>"Production Cost Tm","name"=>"production_cost_tm","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+        //$this->form[] = ["label"=>"Production Cost Comment","name"=>"production_cost_comment","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
         # OLD END FORM
 
         /*
@@ -251,7 +251,7 @@ class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controller
     public function hook_query_index(&$query)
     {
         //Your code here
-        $query = DB::table('master_salary')->selectRaw('*, salary_ti + salary_tm AS total');
+        $query = DB::table('master_production_cost')->selectRaw('*, production_cost_ti + production_cost_tm AS total');
     }
 
     /*

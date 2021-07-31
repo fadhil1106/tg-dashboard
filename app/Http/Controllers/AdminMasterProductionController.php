@@ -36,13 +36,13 @@ class AdminMasterProductionController extends \crocodicstudio\crudbooster\contro
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
         $this->col[] = ["label" => "Date", "name" => "production_date"];
-        $this->col[] = ["label" => "Tira Indonesia", "name" => "production_ti", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Indonesia (TON)", "name" => "production_ti", "callback" => function ($row) {
             return number_format($row->production_ti);
         }];
-        $this->col[] = ["label" => "Tiran Mineral", "name" => "production_tm", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Mineral (TON)", "name" => "production_tm", "callback" => function ($row) {
             return number_format($row->production_tm);
         }];
-        $this->col[] = ["label" => "Total", "callback" => function ($row) {
+        $this->col[] = ["label" => "Total (TON)", "callback" => function ($row) {
             return number_format($row->total);
         }];
         $this->col[] = ["label" => "Comment", "name" => "production_comment"];

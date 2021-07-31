@@ -36,16 +36,16 @@ class AdminMasterSalesController extends \crocodicstudio\crudbooster\controllers
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
         $this->col[] = ["label" => "Date", "name" => "sales_date"];
-        $this->col[] = ["label" => "Quantity TI (TON)", "name" => "sales_quantity_ti", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Indonesia (TON)", "name" => "sales_quantity_ti", "callback" => function ($row) {
             return number_format($row->sales_quantity_ti);
         }];
-        $this->col[] = ["label" => "Sales TI (IDR)", "name" => "sales_ti", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Indonesia (IDR)", "name" => "sales_ti", "callback" => function ($row) {
             return number_format($row->sales_ti);
         }];
-        $this->col[] = ["label" => "Quantity TM (TON)", "name" => "sales_quantity_tm", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Mineral (TON)", "name" => "sales_quantity_tm", "callback" => function ($row) {
             return number_format($row->sales_quantity_tm);
         }];
-        $this->col[] = ["label" => "Sales TM (IDR)", "name" => "sales_tm", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Mineral (IDR)", "name" => "sales_tm", "callback" => function ($row) {
             return number_format($row->sales_tm);
         }];
         $this->col[] = ["label" => "Total (TON)", "callback" => function ($row) {

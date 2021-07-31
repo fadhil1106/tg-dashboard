@@ -36,10 +36,10 @@ class AdminMasterFuelController extends \crocodicstudio\crudbooster\controllers\
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
         $this->col[] = ["label" => "Date", "name" => "fuel_date"];
-        $this->col[] = ["label" => "Fuel TI (Ltr)", "name" => "fuel_ti", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Indonesia (Ltr)", "name" => "fuel_ti", "callback" => function ($row) {
             return number_format($row->fuel_ti);
         }];
-        $this->col[] = ["label" => "Fuel TM (Ltr)", "name" => "fuel_tm", "callback" => function ($row) {
+        $this->col[] = ["label" => "Tiran Mineral (Ltr)", "name" => "fuel_tm", "callback" => function ($row) {
             return number_format($row->fuel_tm);
         }];
         $this->col[] = ["label" => "Total", "callback" => function ($row) {
