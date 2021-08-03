@@ -36,6 +36,7 @@
         </tbody>
     </table>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     console.log(@json($data['production']))
     var options = {
