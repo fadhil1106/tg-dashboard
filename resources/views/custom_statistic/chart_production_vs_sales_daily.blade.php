@@ -34,7 +34,7 @@
         </tbody>
     </table>
 </div>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts">
     var options = {
         chart: {
             type: 'line',

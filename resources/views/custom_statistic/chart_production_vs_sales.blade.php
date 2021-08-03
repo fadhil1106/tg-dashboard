@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <div class="row" style="padding-left: 10px;padding-right: 10px">
     <div id="chart">
     </div>
