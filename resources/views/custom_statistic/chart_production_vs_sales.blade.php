@@ -6,7 +6,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Bulan</th>
+                <th scope="col">{{$data['labelType']}}</th>
                 @foreach ($data['label'] as $item)
                 <th scope="col">{{$item}}</th>
                 @endforeach
@@ -34,8 +34,8 @@
         </tbody>
     </table>
 </div>
-
 <script>
+    console.log(@json($data['production']))
     var options = {
         chart: {
             type: 'line',
@@ -43,33 +43,36 @@
         },
         series: [
         {
-            name: 'production (TON)',
-            data: {!!$data['production']!!}
+            name: 'PRODUCTION (TON)',
+            type: 'line',
+            data: @json($data['production'])
         },
         {
-            name: 'sales (TON)',
-            data: {!!$data['sales']!!}
+            name: 'SALES (TON)',
+            type: 'line',
+            data: @json($data['sales'])
         },
         {
-            name: 'sales (IDR)',
-            data: {!!$data['salesIdr']!!}
+            name: 'SALES (IDR)',
+            type: 'bar',
+            data: @json($data['salesIdr'])
         },
         ],
         xaxis: {
-            categories: {!!$data['label']!!},
+            categories: @json($data['label']),
             tickPlacement: 'between'
         },
         yaxis: [
             {
                 show: true,
-                seriesName: 'production (TON)',
+                seriesName: 'PRODUCTION (TON)',
                 tickAmount: 10,
                 title: {
                     text: 'Jumlah Ton'
                 }
             },
             {
-                seriesName: 'sales (TON)',
+                seriesName: 'SALES (TON)',
                 opposite: true,
                 show: true,
                 tickAmount: 10,
@@ -79,15 +82,20 @@
             },
             {
                 show: false,
-                seriesName: 'sales (IDR)',
+                seriesName: 'SALES (IDR)',
                 max:300000000000,
                 opposite: true,
                 tickAmount: 5,
-                title: {
-                    text: 'sales (IDR)'
-                }
             }
         ],
+        plotOptions:{
+            bar: {
+                dataLabels: {
+                    position: "top", // top, center, bottom
+                    offsetY: -15,
+                }
+            }
+        },
         dataLabels: {
             enabled: true,
             formatter: function (value){
@@ -97,6 +105,13 @@
         textAnchor: 'middle',
         toolbar: {
             show: false
+        },
+        tooltip:{
+            y: {
+                formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                return new Intl.NumberFormat().format(value);
+                }
+            }
         }
     }
 

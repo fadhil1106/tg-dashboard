@@ -51,7 +51,7 @@ class AdminMasterBreakdownController extends \crocodicstudio\crudbooster\control
         # START FORM DO NOT REMOVE THIS LINE
         $this->form = [];
         $this->form[] = ['label' => 'Date', 'name' => 'breakdown_date', 'type' => 'date', 'validation' => 'required|date', 'width' => 'col-sm-10'];
-        $this->form[] = ['label' => 'Breakdown TI (Unit)', 'name' => 'breakdown_ti', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-17'];
+        $this->form[] = ['label' => 'Breakdown TI (Unit)', 'name' => 'breakdown_ti', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
         $this->form[] = ['label' => 'Breakdown TM (Unit)', 'name' => 'breakdown_tm', 'type' => 'number', 'validation' => 'min:0', 'width' => 'col-sm-10'];
         $this->form[] = ['label' => 'Comment', 'name' => 'breakdown_comment', 'type' => 'textarea', 'validation' => 'min:0|max:255', 'width' => 'col-sm-10'];
         # END FORM DO NOT REMOVE THIS LINE
