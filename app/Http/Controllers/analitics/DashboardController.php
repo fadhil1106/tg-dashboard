@@ -25,7 +25,7 @@ class DashboardController extends Controller
 
     public function getDailyProductionVsSales()
     {
-        $totalDays = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+        $totalDays = date('t', mktime(0, 0, 0, date('m'), 1, date('Y')));
 
         $production = DB::table('production_daily_cart')->select('*')->get();
         $sales = DB::table('sales_daily_cart')->select('*')->get();
