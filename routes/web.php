@@ -6,9 +6,9 @@ use App\Http\Controllers\analitics\DashboardController;
 
 
 Route::get('/', function () {
-    // if (DB::connection()->getDatabaseName()) {
-    //     echo "conncted sucessfully to database " . DB::connection()->getDatabaseName();
-    // }
+    if (DB::connection()->getDatabaseName()) {
+        echo "conncted sucessfully to database " . DB::connection()->getDatabaseName();
+    }
     return view('welcome');
 });
 
