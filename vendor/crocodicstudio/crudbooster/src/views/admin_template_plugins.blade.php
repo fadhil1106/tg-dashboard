@@ -4,7 +4,6 @@
 <![endif]-->
 
 <!-- REQUIRED JS SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <!-- jQuery 2.2.3 -->
 <script src="{{ asset ('vendor/crudbooster/assets/adminlte/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>

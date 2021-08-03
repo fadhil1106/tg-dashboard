@@ -34,9 +34,9 @@
         </tbody>
     </table>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <script>
-    var options = {
+    var options_pvsd = {
         chart: {
             type: 'line',
             height: '500',
@@ -114,8 +114,4 @@
             }
         }
     }
-
-var chart = new ApexCharts(document.querySelector("#chartdaily"), options);
-
-chart.render();
 </script>

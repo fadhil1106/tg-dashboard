@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
 <div class="row" style="padding-left: 10px;padding-right: 10px">
     <div id="chart">
     </div>
@@ -36,10 +34,8 @@
         </tbody>
     </table>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    console.log(@json($data['production']))
-    var options = {
+    var options_pvs = {
         chart: {
             type: 'line',
             height: '500',
@@ -118,7 +114,13 @@
         }
     }
 
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-chart.render();
+    $(document).ready(function () {
+       $.getScript('https://cdn.jsdelivr.net/npm/apexcharts', function () {
+           console.log('render')
+           var chart1 = new ApexCharts(document.querySelector("#chart"), options_pvs);
+           var chart2 = new ApexCharts(document.querySelector("#chartdaily"), options_pvsd);
+           chart1.render();
+           chart2.render();
+       })
+    });
 </script>
