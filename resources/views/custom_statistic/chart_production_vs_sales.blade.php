@@ -53,16 +53,14 @@
         yaxis: [
             {
                 show: true,
-                seriesName: 'PRODUCTION (TON)',
                 tickAmount: 10,
                 title: {
                     text: 'Jumlah Ton'
                 }
             },
             {
-                seriesName: 'SALES (TON)',
-                opposite: true,
                 show: true,
+                opposite: true,
                 tickAmount: 10,
                 title: {
                     text: 'Jumlah Ton'
