@@ -114,4 +114,11 @@
             }
         }
     }
+    $(document).ready(function () {
+        $.getScript('https://cdn.jsdelivr.net/npm/apexcharts', function () {
+            console.log('render')
+            var chart2 = new ApexCharts(document.querySelector("#chartdaily"), options_pvsd);
+            chart2.render();
+        })
+    });
 </script>

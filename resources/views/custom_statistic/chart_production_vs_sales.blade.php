@@ -118,9 +118,9 @@
        $.getScript('https://cdn.jsdelivr.net/npm/apexcharts', function () {
            console.log('render')
            var chart1 = new ApexCharts(document.querySelector("#chart"), options_pvs);
-           var chart2 = new ApexCharts(document.querySelector("#chartdaily"), options_pvsd);
+        //    var chart2 = new ApexCharts(document.querySelector("#chartdaily"), options_pvsd);
            chart1.render();
-           chart2.render();
+        //    chart2.render();
        })
     });
 </script>
