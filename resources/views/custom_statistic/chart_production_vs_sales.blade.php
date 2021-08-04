@@ -58,14 +58,6 @@
                     text: 'Jumlah Ton'
                 }
             },
-            {
-                show: true,
-                opposite: true,
-                tickAmount: 10,
-                title: {
-                    text: 'Jumlah Ton'
-                }
-            },
         ],
         plotOptions:{
             bar: {
