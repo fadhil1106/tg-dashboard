@@ -25,12 +25,6 @@
                 <td>{{number_format($item)}}</td>
                 @endforeach
             </tr>
-            <tr>
-                <th scope="row">Sale (IDR)</th>
-                @foreach ($data['salesIdr'] as $item)
-                <td>{{number_format($item)}}</td>
-                @endforeach
-            </tr>
         </tbody>
     </table>
 </div>
@@ -50,11 +44,6 @@
             name: 'SALES (TON)',
             type: 'line',
             data: @json($data['sales'])
-        },
-        {
-            name: 'SALES (IDR)',
-            type: 'bar',
-            data: @json($data['salesIdr'])
         },
         ],
         xaxis: {
@@ -79,13 +68,6 @@
                     text: 'Jumlah Ton'
                 }
             },
-            {
-                show: false,
-                seriesName: 'SALES (IDR)',
-                max:300000000000,
-                opposite: true,
-                tickAmount: 5,
-            }
         ],
         plotOptions:{
             bar: {
@@ -118,9 +100,7 @@
        $.getScript('https://cdn.jsdelivr.net/npm/apexcharts', function () {
            console.log('render')
            var chart1 = new ApexCharts(document.querySelector("#chart"), options_pvs);
-        //    var chart2 = new ApexCharts(document.querySelector("#chartdaily"), options_pvsd);
            chart1.render();
-        //    chart2.render();
        })
     });
 </script>

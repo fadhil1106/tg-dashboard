@@ -16,7 +16,6 @@ class DashboardController extends Controller
         $data = [
             'production' => $production->pluck('value'),
             'sales' => $sales->pluck('value'),
-            'salesIdr' => $salesIdr->pluck('value'),
             'label' => $production->pluck('label'),
             'labelType' => 'Bulan',
         ];
@@ -29,19 +28,16 @@ class DashboardController extends Controller
 
         $production = DB::table('production_daily_cart')->select('*')->get();
         $sales = DB::table('sales_daily_cart')->select('*')->get();
-        $salesIdr = DB::table('sales_idr_daily_cart')->select('*')->get();
 
         $data = [
             'production' => array(),
             'sales' => array(),
-            'salesIdr' => array(),
             'label' => array(),
             'labelType' => 'Tanggal',
         ];
 
         $indexProduction = 0;
         $indexSales = 0;
-        $indexSalesIdr = 0;
 
         for ($day = 1; $day <= $totalDays; $day++) {
             array_push($data['label'], $day);
@@ -68,22 +64,10 @@ class DashboardController extends Controller
                 array_push($data['production'], 0);
             }
 
-            if (!empty($salesIdr)) {
-                if ($salesIdr[$indexSalesIdr]->label == $day) {
-                    array_push($data['salesIdr'], $production[$indexSalesIdr]->value);
-                    $indexSalesIdr++;
-                } else {
-                    array_push($data['salesIdr'], 0);
-                }
-            } else {
-                array_push($data['production'], 0);
-            }
-
             if ($production->last()->label < $day) {
                 break;
             }
         }
-
         return view('custom_statistic.chart_production_vs_sales_daily')->with('data', $data);
     }
 }
