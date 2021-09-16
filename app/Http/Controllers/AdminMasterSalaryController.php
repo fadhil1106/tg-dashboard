@@ -36,7 +36,8 @@ class AdminMasterSalaryController extends \crocodicstudio\crudbooster\controller
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
         $this->col[] = ["label" => "Bulan", "name" => "salary_date", "callback" => function ($row) {
-            return date('F', $row->salary_date);
+            $date = date_create($row->salary_date);
+            return date_format($date, "F");
         }];
         $this->col[] = ["label" => "Tiran Indonesia (IDR)", "name" => "salary_ti", "callback" => function ($row) {
             return number_format($row->salary_ti);

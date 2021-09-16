@@ -14,14 +14,26 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row">Sale (TON)</th>
-                @foreach ($data['sales'] as $item)
+                <th scope="row">Sale (Ton)</th>
+                @foreach ($data['sale'] as $item)
                 <td>{{number_format($item)}}</td>
                 @endforeach
             </tr>
             <tr>
-                <th scope="row" style="width: 13rem;">Breakdown (Unit)</th>
-                @foreach ($data['breakdown'] as $item)
+                <th scope="row" style="width: 13rem;">Total Direct Production Cost (IDR Bio)</th>
+                @foreach ($data['production_cost'] as $item)
+                <td>{{number_format($item)}}</td>
+                @endforeach
+            </tr>
+            <tr>
+                <th scope="row" style="width: 13rem;">Fuel (Ltr)</th>
+                @foreach ($data['fuel'] as $item)
+                <td>{{number_format($item)}}</td>
+                @endforeach
+            </tr>
+            <tr>
+                <th scope="row" style="width: 13rem;">Spareparts (IDR Bio)</th>
+                @foreach ($data['sparepart'] as $item)
                 <td>{{number_format($item)}}</td>
                 @endforeach
             </tr>
@@ -36,14 +48,24 @@
         },
         series: [
         {
-            name: 'SALES (TON)',
+            name: 'Sale (Ton)',
             type: 'line',
-            data: @json($data['sales'])
+            data: @json($data['sale'])
         },
         {
-            name: 'BREAKDOWN (Unit)',
-            type: 'bar',
-            data: @json($data['breakdown'])
+            name: 'Total Direct Production Cost (IDR Bio)',
+            type: 'line',
+            data: @json($data['production_cost'])
+        },
+        {
+            name: 'Fuel (Ltr)',
+            type: 'line',
+            data: @json($data['fuel'])
+        },
+        {
+            name: 'Spareparts (IDR Bio)',
+            type: 'line',
+            data: @json($data['sparepart'])
         },
         ],
         xaxis: {
@@ -52,21 +74,44 @@
         },
         yaxis: [
             {
-                seriesName: 'SALES (TON)',
+                seriesName: 'Sale (Ton)',
                 show: true,
                 tickAmount: 10,
                 title: {
-                    text: 'Jumlah Ton'
+                    text: 'Jumlah RIT'
                 }
             },
             {
-                show: true,
+                show: false,
                 opposite: true,
-                seriesName: 'BREAKDOWN (Unit)',
+                seriesName: 'Total Direct Production Cost (IDR Bio)',
                 opposite: true,
-                tickAmount: 5,
+                max: 10000,
+                tickAmount: 10,
                 title: {
-                    text: 'Jumlah Breakdown'
+                    text: 'Jumlah Unit'
+                }
+            },
+            {
+                show: false,
+                opposite: true,
+                seriesName: 'Fuel (Ltr)',
+                opposite: true,
+                max: 10000,
+                tickAmount: 10,
+                title: {
+                    text: 'Jumlah Orang'
+                }
+            }
+            {
+                show: false,
+                opposite: true,
+                seriesName: 'Spareparts (IDR Bio)',
+                opposite: true,
+                max: 5000,
+                tickAmount: 10,
+                title: {
+                    text: 'Jumlah Orang'
                 }
             }
         ],

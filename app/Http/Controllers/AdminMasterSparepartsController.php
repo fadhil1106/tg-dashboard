@@ -36,7 +36,8 @@ class AdminMasterSparepartsController extends \crocodicstudio\crudbooster\contro
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
         $this->col[] = ["label" => "Bulan", "name" => "spareparts_date", "callback" => function ($row) {
-            return date('F', $row->spareparts_date);
+            $date = date_create($row->spareparts_date);
+            return date_format($date, "F");
         }];
         $this->col[] = ["label" => "Tiran Indonesia (IDR)", "name" => "spareparts_ti", "callback" => function ($row) {
             return number_format($row->spareparts_ti);

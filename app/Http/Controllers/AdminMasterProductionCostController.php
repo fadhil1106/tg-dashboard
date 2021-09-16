@@ -36,7 +36,8 @@ class AdminMasterProductionCostController extends \crocodicstudio\crudbooster\co
         # START COLUMNS DO NOT REMOVE THIS LINE
         $this->col = [];
         $this->col[] = ["label" => "Bulan", "name" => "production_cost_date", "callback" => function ($row) {
-            return date('F', $row->production_cost_date);
+            $date = date_create($row->production_cost_date);
+            return date_format($date, "F");
         }];
         $this->col[] = ["label" => "Tiran Indonesia (IDR)", "name" => "production_cost_ti", "callback" => function ($row) {
             return number_format($row->production_cost_ti);

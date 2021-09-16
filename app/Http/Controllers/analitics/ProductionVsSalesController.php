@@ -6,21 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class ProductionVsSalesController extends Controller
 {
-    public function getAllChart()
+    public function getMonthlyProductionVsSales()
     {
         $production = DB::table('production_cart')->select('*')->get();
-        $breakdown = DB::table('breakdown_cart')->select('*')->get();
         $sales = DB::table('sales_cart')->select('*')->get();
+        $salesIdr = DB::table('sales_cart_idr')->select('*')->get();
         $data = [
             'production' => $production->pluck('value'),
-            'breakdown' => $breakdown->pluck('value'),
             'sales' => $sales->pluck('value'),
             'label' => $production->pluck('label'),
             'labelType' => 'Bulan',
         ];
-        return view('custom_statistic.dashboard_statistic')->with('data', $data);
+        return view('custom_statistic.chart_production_vs_sales')->with('data', $data);
     }
 
     public function getDailyProductionVsSales()

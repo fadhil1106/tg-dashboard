@@ -14,14 +14,20 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row">Sale (TON)</th>
-                @foreach ($data['sales'] as $item)
+                <th scope="row">Ritase (Rit)</th>
+                @foreach ($data['ritase'] as $item)
                 <td>{{number_format($item)}}</td>
                 @endforeach
             </tr>
             <tr>
-                <th scope="row" style="width: 13rem;">Breakdown (Unit)</th>
-                @foreach ($data['breakdown'] as $item)
+                <th scope="row" style="width: 13rem;">Population (Unit)</th>
+                @foreach ($data['population'] as $item)
+                <td>{{number_format($item)}}</td>
+                @endforeach
+            </tr>
+            <tr>
+                <th scope="row" style="width: 13rem;">Workman (Person)</th>
+                @foreach ($data['workman'] as $item)
                 <td>{{number_format($item)}}</td>
                 @endforeach
             </tr>
@@ -36,14 +42,19 @@
         },
         series: [
         {
-            name: 'SALES (TON)',
+            name: 'RITASE (Rit)',
             type: 'line',
-            data: @json($data['sales'])
+            data: @json($data['ritase'])
         },
         {
-            name: 'BREAKDOWN (Unit)',
-            type: 'bar',
-            data: @json($data['breakdown'])
+            name: 'POPULATION (Unit)',
+            type: 'line',
+            data: @json($data['population'])
+        },
+        {
+            name: 'WORKMAN (Person)',
+            type: 'line',
+            data: @json($data['workman'])
         },
         ],
         xaxis: {
@@ -52,21 +63,33 @@
         },
         yaxis: [
             {
-                seriesName: 'SALES (TON)',
+                seriesName: 'RITASE (Rit)',
                 show: true,
                 tickAmount: 10,
                 title: {
-                    text: 'Jumlah Ton'
+                    text: 'Jumlah RIT'
                 }
             },
             {
-                show: true,
+                show: false,
                 opposite: true,
-                seriesName: 'BREAKDOWN (Unit)',
+                seriesName: 'POPULATION (Unit)',
                 opposite: true,
-                tickAmount: 5,
+                max: 10000,
+                tickAmount: 10,
                 title: {
-                    text: 'Jumlah Breakdown'
+                    text: 'Jumlah Unit'
+                }
+            },
+            {
+                show: false,
+                opposite: true,
+                seriesName: 'WORKMAN (Person)',
+                opposite: true,
+                max: 10000,
+                tickAmount: 10,
+                title: {
+                    text: 'Jumlah Orang'
                 }
             }
         ],
