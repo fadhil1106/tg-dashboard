@@ -14,13 +14,13 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row" style="width: 13rem;">Production (TON)</th>
+                <th scope="row" style="width: 13rem;">Production (MT)</th>
                 @foreach ($data['production'] as $item)
                 <td>{{number_format($item)}}</td>
                 @endforeach
             </tr>
             <tr>
-                <th scope="row">Sale (TON)</th>
+                <th scope="row">Sale (MT)</th>
                 @foreach ($data['sales'] as $item)
                 <td>{{number_format($item)}}</td>
                 @endforeach
@@ -37,12 +37,12 @@
         },
         series: [
         {
-            name: 'PRODUCTION (TON)',
+            name: 'PRODUCTION (MT)',
             type: 'line',
             data: @json($data['production'])
         },
         {
-            name: 'SALES (TON)',
+            name: 'SALES (MT)',
             type: 'line',
             data: @json($data['sales'])
         },
@@ -56,7 +56,7 @@
                 show: true,
                 tickAmount: 10,
                 title: {
-                    text: 'Jumlah Ton'
+                    text: 'Jumlah MT'
                 }
             },
         ],

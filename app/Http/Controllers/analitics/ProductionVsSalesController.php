@@ -5,14 +5,20 @@ namespace App\Http\Controllers\analitics;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use crocodicstudio\crudbooster\helpers\CRUDBooster;
 
 class ProductionVsSalesController extends Controller
 {
     public function getMonthlyProductionVsSales()
     {
+        $id = CRUDBooster::myId();
+        if ($id == null) {
+            abort(404);
+        }
+
         $production = DB::table('production_cart')->select('*')->get();
         $sales = DB::table('sales_cart')->select('*')->get();
-        $salesIdr = DB::table('sales_cart_idr')->select('*')->get();
+        // $salesIdr = DB::table('sales_cart_idr')->select('*')->get();
         $data = [
             'production' => $production->pluck('value'),
             'sales' => $sales->pluck('value'),

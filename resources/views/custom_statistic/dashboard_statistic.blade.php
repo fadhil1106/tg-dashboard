@@ -29,12 +29,12 @@
         },
         series: [
         {
-            name: 'PRODUCTION (TON)',
+            name: 'PRODUCTION (MT)',
             type: 'line',
             data: @json($data['production'])
         },
         {
-            name: 'SALES (TON)',
+            name: 'SALES (MT)',
             type: 'line',
             data: @json($data['sales'])
         },
@@ -48,7 +48,7 @@
                 show: true,
                 tickAmount: 10,
                 title: {
-                    text: 'Jumlah Ton'
+                    text: 'Jumlah MT'
                 }
             },
         ],
@@ -99,7 +99,7 @@
         },
         series: [
         {
-            name: 'SALES (TON)',
+            name: 'SALES (MT)',
             type: 'line',
             data: @json($data['sales'])
         },
@@ -115,11 +115,11 @@
         },
         yaxis: [
             {
-                seriesName: 'SALES (TON)',
+                seriesName: 'SALES (MT)',
                 show: true,
                 tickAmount: 10,
                 title: {
-                    text: 'Jumlah Ton'
+                    text: 'Jumlah MT'
                 }
             },
             {
