@@ -5,11 +5,17 @@ namespace App\Http\Controllers\analitics;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use crocodicstudio\crudbooster\helpers\CRUDBooster;
 
 class RitaseVsPopulationWorkmanController extends Controller
 {
     public function getMonthlyChart()
     {
+        $id = CRUDBooster::myId();
+        if ($id == null) {
+            abort(404);
+        }
+
         $ritase = DB::table('ritase_cart')->select('*')->get();
         $population = DB::table('population_cart')->select('*')->get();
         $workman = DB::table('workman_cart')->select('*')->get();

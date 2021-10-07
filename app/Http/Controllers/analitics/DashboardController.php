@@ -5,14 +5,31 @@ namespace App\Http\Controllers\analitics;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use crocodicstudio\crudbooster\helpers\CRUDBooster;
 
 class DashboardController extends Controller
 {
     public function getAllChart()
     {
+        $id = CRUDBooster::myId();
+        if ($id == null) {
+            abort(404);
+        }
+
         $production = DB::table('production_cart')->select('*')->get();
-        $breakdown = DB::table('breakdown_cart')->select('*')->get();
-        $sales = DB::table('sales_cart')->select('*')->get();
+
+        $breakdown = DB::table('master_breakdown')
+            ->select(DB::raw('monthname(breakdown_date) as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
+            ->where(DB::raw('year(breakdown_date)'), date("Y"))
+            ->groupBy(DB::raw('month(breakdown_date)'))
+            ->get();
+
+        $sales = DB::table('master_sales')
+            ->select(DB::raw('monthname(sales_date) as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
+            ->where(DB::raw('year(sales_date)'), date("Y"))
+            ->groupBy(DB::raw('month(sales_date)'))
+            ->get();
+
         $data = [
             'production' => $production->pluck('value'),
             'breakdown' => $breakdown->pluck('value'),
@@ -21,6 +38,44 @@ class DashboardController extends Controller
             'labelType' => 'Bulan',
         ];
         return view('custom_statistic.dashboard_statistic')->with('data', $data);
+    }
+
+    public function getAllData()
+    {
+        $id = CRUDBooster::myId();
+        if ($id == null) {
+            abort(404);
+        }
+        $production = DB::table('production_cart')->select('*')->get();
+
+        $breakdown = DB::table('master_breakdown')
+            ->select(DB::raw('monthname(breakdown_date) as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
+            ->where(DB::raw('year(breakdown_date)'), date("Y"))
+            ->groupBy(DB::raw('month(breakdown_date)'))
+            ->get();
+
+        $sales = DB::table('master_sales')
+            ->select(DB::raw('monthname(sales_date) as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
+            ->where(DB::raw('year(sales_date)'), date("Y"))
+            ->groupBy(DB::raw('month(sales_date)'))
+            ->get();
+
+        $label = [];
+        if ($breakdown->count() > $sales->count()) {
+            $label = $breakdown->pluck('label')->toArray();
+        }else{
+            $label = $sales->pluck('label')->toArray();
+        }
+
+        $data = [
+            'production' => $production->pluck('value')->toArray(),
+            'breakdown' => $breakdown->pluck('value')->toArray(),
+            'sales' => $sales->pluck('value')->toArray(),
+            'label' => $label,
+            'labelType' => 'Bulan',
+        ];
+        // dd($data['breakdown']);
+        return $data;
     }
 
     public function getDailyProductionVsSales()

@@ -5,12 +5,17 @@
 @endpush
 @section('content')
 <div class="row" style="padding-left: 10px;padding-right: 10px">
+    <div id="chart2">
+    </div>
+</div>
+<div class="row" style="padding-left: 10px;padding-right: 10px">
     <div id="chart">
     </div>
 </div>
 <script>
     var options_pvs = {
         chart: {
+            id: 'options_pvs',
             type: 'line',
             height: '500',
         },
@@ -29,16 +34,19 @@
         },
         series: [
         {
-            name: 'PRODUCTION (TON)',
-            type: 'line',
+            name: 'PRODUCTION (MT)',
+            type: 'bar',
             data: @json($data['production'])
         },
         {
-            name: 'SALES (TON)',
-            type: 'line',
+            name: 'SALES (MT)',
+            type: 'bar',
             data: @json($data['sales'])
         },
         ],
+        noData: {
+            text: 'Loading Data.....'
+        },
         xaxis: {
             categories: @json($data['label']),
             tickPlacement: 'between'
@@ -48,7 +56,7 @@
                 show: true,
                 tickAmount: 10,
                 title: {
-                    text: 'Jumlah Ton'
+                    text: 'Jumlah MT'
                 }
             },
         ],
@@ -79,8 +87,11 @@
         }
     }
 
+    var label = @json($data['label'])
+
     var options_svb = {
         chart: {
+            id : 'options_svb',
             type: 'line',
             height: '500',
         },
@@ -99,8 +110,8 @@
         },
         series: [
         {
-            name: 'SALES (TON)',
-            type: 'line',
+            name: 'SALES (MT)',
+            type: 'bar',
             data: @json($data['sales'])
         },
         {
@@ -109,17 +120,20 @@
             data: @json($data['breakdown'])
         },
         ],
+        noData: {
+            text: 'Loading Data.....'
+        },
         xaxis: {
-            categories: @json($data['label']),
+            categories: label,
             tickPlacement: 'between'
         },
         yaxis: [
             {
-                seriesName: 'SALES (TON)',
+                seriesName: 'SALES (MT)',
                 show: true,
                 tickAmount: 10,
                 title: {
-                    text: 'Jumlah Ton'
+                    text: 'Jumlah MT'
                 }
             },
             {
@@ -163,26 +177,74 @@
 
     $(document).ready(function () {
     //    $.getScript('https://cdn.jsdelivr.net/npm/apexcharts', function () {
-            console.log('render')
-            divChart = document.querySelector("#chart");
-            var chart1 = new ApexCharts(divChart, options_pvs);
-            let chart = [options_pvs, options_svb]
-            var index = 0
-            chart1.render()
+        console.log('render')
+        divChart = document.querySelector("#chart");
+        divChart2 = document.querySelector("#chart2");
+        var chart1 = new ApexCharts(divChart, options_svb);
+        var chart2 = new ApexCharts(divChart2, options_pvs);
+        chart1.render()
+        chart2.render()
+        var type = 'line'
 
-            loop = () => {
-                index++
-                if (index > chart.length-1) {
-                    index = 0
-                }
+        loop = () => {
+            setTimeout(() => {
+                $.ajax({
+                    url: "{{route('get.all.data')}}",
+                    method: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                    },
+                    success: function(data) {
+                        ApexCharts.exec('options_svb', 'updateSeries', [
+                            {
+                                name: 'SALES (MT)',
+                                type: type,
+                                data: data['sales']
+                            },
+                            {
+                                name: 'BREAKDOWN (Unit)',
+                                type: type,
+                                data: data['breakdown']
+                            }
+                        ],true);
+                        ApexCharts.exec('options_svb', 'updateOptions', {
+                            xaxis: {
+                                categories: data['label'],
+                            }
+                        }, true, true);
 
-                setTimeout(() => {
-                    chart1.updateOptions (chart[index], true, true);
-                    loop();
-                }, 10000)
 
-            }
-           loop()
+                        ApexCharts.exec('options_pvs', 'updateSeries', [
+                            {
+                                name: 'PRODUCTION (MT)',
+                                type: type,
+                                data: data['production']
+                            },
+                            {
+                                name: 'SALES (MT)',
+                                type: type,
+                                data: data['sales']
+                            }
+                        ],true);
+                        ApexCharts.exec('options_pvs', 'updateOptions', {
+                            xaxis: {
+                                categories: data['label'],
+                            }
+                        }, true, true);
+
+                        if (type == 'line') {
+                            type = 'bar'
+                        } else {
+                            type = 'line'
+                        }
+                    },
+                    error: function() {}
+                })
+                loop();
+            }, 10000)
+
+        }
+        loop()
     //    })
     });
 </script>

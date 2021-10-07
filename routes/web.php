@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::get('chart/main-dashboard', [DashboardController::class, 'getAllChart'])
     ->name('customchart.main.dashboard');
+Route::post('chart/get-all-data', [DashboardController::class, 'getAllData'])
+    ->name('get.all.data');
 Route::get('chart/production-vs-sales', [ProductionVsSalesController::class, 'getMonthlyProductionVsSales'])
     ->name('customchart.production.vs.sales');
 Route::get('chart/production-vs-sales-daily', [ProductionVsSalesController::class, 'getDailyProductionVsSales'])
