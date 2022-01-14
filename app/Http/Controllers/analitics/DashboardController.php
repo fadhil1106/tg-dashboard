@@ -16,32 +16,24 @@ class DashboardController extends Controller
             abort(404);
         }
 
-        // $production = DB::table('production_cart')
-        //             ->select('*')
-        //             ->orderByDesc('production_date')
-        //             ->limit(12)
-        //             ->get();
         $production = DB::table('master_production')
-            ->select(DB::raw('DATE_FORMAT(production_date, "%M %Y") as label, sum(production_ti + production_tm) as value'))
+            ->select(DB::raw('DATE_FORMAT(production_date, "%M-%Y") as label, sum(production_ti + production_tm) as value'))
+            ->where(DB::raw('DATE_FORMAT(production_date, "%m-%Y")'), '>', date('m-Y', strtotime('-12 month')))
             ->groupBy(DB::raw('label'))
             ->orderByDesc('production_date')
-            ->limit(12)
             ->get();
-
         $breakdown = DB::table('master_breakdown')
             ->select(DB::raw('DATE_FORMAT(breakdown_date, "%M %Y") as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
-            // ->where(DB::raw('year(breakdown_date)'), date("Y"))
+            ->where(DB::raw('DATE_FORMAT(breakdown_date, "%m-%Y")'), '>', date('m-Y', strtotime('-12 month')))
             ->groupBy(DB::raw('label'))
             ->orderByDesc('breakdown_date')
-            ->limit(12)
             ->get();
 
         $sales = DB::table('master_sales')
             ->select(DB::raw('DATE_FORMAT(sales_date, "%M %Y") as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
-            // ->where(DB::raw('year(sales_date)'), date("Y"))
+            ->where(DB::raw('DATE_FORMAT(sales_date, "%m-%Y")'), '>', date('m-Y', strtotime('-12 month')))
             ->groupBy(DB::raw('label'))
             ->orderByDesc('sales_date')
-            ->limit(12)
             ->get();
 
         $data = [
@@ -60,8 +52,10 @@ class DashboardController extends Controller
         if ($id == null) {
             abort(404);
         }
+
         $production = DB::table('master_production')
             ->select(DB::raw('DATE_FORMAT(production_date, "%M %Y") as label, sum(production_ti + production_tm) as value'))
+            ->where(DB::raw('DATE_FORMAT(production_date, "%m-%Y")'), '>', date('m-Y', strtotime('-12 month')))
             ->groupBy(DB::raw('label'))
             ->orderByDesc('production_date')
             ->limit(12)
@@ -69,18 +63,16 @@ class DashboardController extends Controller
 
         $breakdown = DB::table('master_breakdown')
             ->select(DB::raw('DATE_FORMAT(breakdown_date, "%M %Y") as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
-            // ->where(DB::raw('year(breakdown_date)'), date("Y"))
+            ->where(DB::raw('DATE_FORMAT(breakdown_date, "%m-%Y")'), '>', date('m-Y', strtotime('-12 month')))
             ->groupBy(DB::raw('label'))
             ->orderByDesc('breakdown_date')
-            ->limit(12)
             ->get();
 
         $sales = DB::table('master_sales')
             ->select(DB::raw('DATE_FORMAT(sales_date, "%M %Y") as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
-            // ->where(DB::raw('year(sales_date)'), date("Y"))
+            ->where(DB::raw('DATE_FORMAT(sales_date, "%m-%Y")'), '>', date('m-Y', strtotime('-12 month')))
             ->groupBy(DB::raw('label'))
             ->orderByDesc('sales_date')
-            ->limit(12)
             ->get();
 
         $label = [];
