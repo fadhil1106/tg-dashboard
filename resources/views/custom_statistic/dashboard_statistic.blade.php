@@ -241,7 +241,7 @@
                     error: function() {}
                 })
                 loop();
-            }, 10000)
+            }, 60000)
 
         }
         loop()

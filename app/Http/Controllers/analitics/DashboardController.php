@@ -16,25 +16,39 @@ class DashboardController extends Controller
             abort(404);
         }
 
-        $production = DB::table('production_cart')->select('*')->get();
+        // $production = DB::table('production_cart')
+        //             ->select('*')
+        //             ->orderByDesc('production_date')
+        //             ->limit(12)
+        //             ->get();
+        $production = DB::table('master_production')
+            ->select(DB::raw('DATE_FORMAT(production_date, "%M %Y") as label, sum(production_ti + production_tm) as value'))
+            ->groupBy(DB::raw('label'))
+            ->orderByDesc('production_date')
+            ->limit(12)
+            ->get();
 
         $breakdown = DB::table('master_breakdown')
-            ->select(DB::raw('monthname(breakdown_date) as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
-            ->where(DB::raw('year(breakdown_date)'), date("Y"))
-            ->groupBy(DB::raw('month(breakdown_date)'))
+            ->select(DB::raw('DATE_FORMAT(breakdown_date, "%M %Y") as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
+            // ->where(DB::raw('year(breakdown_date)'), date("Y"))
+            ->groupBy(DB::raw('label'))
+            ->orderByDesc('breakdown_date')
+            ->limit(12)
             ->get();
 
         $sales = DB::table('master_sales')
-            ->select(DB::raw('monthname(sales_date) as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
-            ->where(DB::raw('year(sales_date)'), date("Y"))
-            ->groupBy(DB::raw('month(sales_date)'))
+            ->select(DB::raw('DATE_FORMAT(sales_date, "%M %Y") as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
+            // ->where(DB::raw('year(sales_date)'), date("Y"))
+            ->groupBy(DB::raw('label'))
+            ->orderByDesc('sales_date')
+            ->limit(12)
             ->get();
 
         $data = [
-            'production' => $production->pluck('value'),
-            'breakdown' => $breakdown->pluck('value'),
-            'sales' => $sales->pluck('value'),
-            'label' => $production->pluck('label'),
+            'production' => array_reverse($production->pluck('value')->toArray()),
+            'breakdown' => array_reverse($breakdown->pluck('value')->toArray()),
+            'sales' => array_reverse($sales->pluck('value')->toArray()),
+            'label' => array_reverse($production->pluck('label')->toArray()),
             'labelType' => 'Bulan',
         ];
         return view('custom_statistic.dashboard_statistic')->with('data', $data);
@@ -46,35 +60,43 @@ class DashboardController extends Controller
         if ($id == null) {
             abort(404);
         }
-        $production = DB::table('production_cart')->select('*')->get();
+        $production = DB::table('master_production')
+            ->select(DB::raw('DATE_FORMAT(production_date, "%M %Y") as label, sum(production_ti + production_tm) as value'))
+            ->groupBy(DB::raw('label'))
+            ->orderByDesc('production_date')
+            ->limit(12)
+            ->get();
 
         $breakdown = DB::table('master_breakdown')
-            ->select(DB::raw('monthname(breakdown_date) as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
-            ->where(DB::raw('year(breakdown_date)'), date("Y"))
-            ->groupBy(DB::raw('month(breakdown_date)'))
+            ->select(DB::raw('DATE_FORMAT(breakdown_date, "%M %Y") as label, floor(breakdown_ti) as ti, floor(breakdown_tm) as tm, floor(breakdown_ti + breakdown_tm) as value'))
+            // ->where(DB::raw('year(breakdown_date)'), date("Y"))
+            ->groupBy(DB::raw('label'))
+            ->orderByDesc('breakdown_date')
+            ->limit(12)
             ->get();
 
         $sales = DB::table('master_sales')
-            ->select(DB::raw('monthname(sales_date) as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
-            ->where(DB::raw('year(sales_date)'), date("Y"))
-            ->groupBy(DB::raw('month(sales_date)'))
+            ->select(DB::raw('DATE_FORMAT(sales_date, "%M %Y") as label, sum(sales_quantity_ti) as ti, sum(sales_quantity_tm) as tm, sum(sales_quantity_ti + sales_quantity_tm) as value'))
+            // ->where(DB::raw('year(sales_date)'), date("Y"))
+            ->groupBy(DB::raw('label'))
+            ->orderByDesc('sales_date')
+            ->limit(12)
             ->get();
 
         $label = [];
         if ($breakdown->count() > $sales->count()) {
-            $label = $breakdown->pluck('label')->toArray();
+            $label = array_reverse($breakdown->pluck('label')->toArray());
         }else{
-            $label = $sales->pluck('label')->toArray();
+            $label = array_reverse($sales->pluck('label')->toArray());
         }
 
         $data = [
-            'production' => $production->pluck('value')->toArray(),
-            'breakdown' => $breakdown->pluck('value')->toArray(),
-            'sales' => $sales->pluck('value')->toArray(),
-            'label' => $label,
+            'production' => array_reverse($production->pluck('value')->toArray()),
+            'breakdown' => array_reverse($breakdown->pluck('value')->toArray()),
+            'sales' => array_reverse($sales->pluck('value')->toArray()),
+            'label' => array_reverse($production->pluck('label')->toArray()),
             'labelType' => 'Bulan',
         ];
-        // dd($data['breakdown']);
         return $data;
     }
 
