@@ -35,12 +35,12 @@
         series: [
         {
             name: 'PRODUCTION (MT)',
-            type: 'bar',
+            type: 'line',
             data: @json($data['production'])
         },
         {
             name: 'SALES (MT)',
-            type: 'bar',
+            type: 'line',
             data: @json($data['sales'])
         },
         ],
@@ -111,7 +111,7 @@
         series: [
         {
             name: 'SALES (MT)',
-            type: 'bar',
+            type: 'line',
             data: @json($data['sales'])
         },
         {
